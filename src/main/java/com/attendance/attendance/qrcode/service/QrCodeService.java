@@ -3,9 +3,10 @@ package com.attendance.attendance.qrcode.service;
 import com.attendance.attendance.qrcode.repository.QrCodeRepository;
 import com.attendance.attendance.settings.service.JwtService;
 import com.attendance.attendance.utility.service.ResponseService;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -48,5 +50,21 @@ public class QrCodeService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write((RenderedImage) bufferedImage, "png", baos);
         return baos.toByteArray();
+    }
+    public String readQRCode(byte[] imageBytes) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+        BufferedImage bufferedImage = ImageIO.read(bais);
+
+        BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+        HybridBinarizer binarizer = new HybridBinarizer(source);
+        com.google.zxing.BinaryBitmap bitmap = new com.google.zxing.BinaryBitmap(binarizer);
+        MultiFormatReader reader = new MultiFormatReader();
+
+        try {
+            Result result = reader.decode(bitmap);
+            return result.getText();
+        } catch (ReaderException e) {
+            return "Error reading QR code";
+        }
     }
 }
