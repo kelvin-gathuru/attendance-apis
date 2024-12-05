@@ -56,9 +56,9 @@ public class UserService {
         }
         if(bCryptPasswordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
             JwtUser jwtUser = new JwtUser();
-            jwtUser.setUserID(user.getUserID());
+            jwtUser.setUserID(existingUser.getUserID());
             jwtUser.setName(existingUser.getName());
-            jwtUser.setEmail(user.getEmail());
+            jwtUser.setEmail(existingUser.getEmail());
             String token = jwtService.generateToken(jwtUser);
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);

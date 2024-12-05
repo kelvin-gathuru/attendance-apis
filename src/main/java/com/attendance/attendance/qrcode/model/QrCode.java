@@ -20,5 +20,7 @@ public class QrCode {
     private Long qrCodeID;
     private Long userID;
     private String qrCodeData;
-    private LocalDateTime expirationTime;
+    private LocalDateTime createdAt;
+    private boolean isUsed;
+    private boolean isExpired;
 }
