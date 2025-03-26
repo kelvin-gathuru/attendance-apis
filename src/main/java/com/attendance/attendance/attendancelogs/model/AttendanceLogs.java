@@ -19,6 +19,11 @@ public class AttendanceLogs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendanceLogID;
     private Long userID;
+    private String fingerprint;
+    private String ipAddress;
+    private String browser;
+    private double latitude;
+    private double longitude;
     private LocalDateTime clockIn;
     private LocalDateTime clockOut;
 }

@@ -18,9 +18,7 @@ public class QrCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qrCodeID;
-    private Long userID;
     private String qrCodeData;
     private LocalDateTime createdAt;
-    private boolean isUsed;
     private boolean isExpired;
 }

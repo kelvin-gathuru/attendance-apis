@@ -11,8 +11,8 @@ public class QrCodeController {
     @Autowired
     private QrCodeService qrCodeService;
     @GetMapping("/generate-qrcode")
-    public ResponseEntity generateQRCode(@RequestHeader("Authorization") String token) throws Exception {
-        return qrCodeService.generateCode(token);
+    public ResponseEntity generateQRCode(@RequestHeader("Authorization") String token){
+        return qrCodeService.generateCode();
     }
     @PostMapping("/read-qrcode")
     public ResponseEntity readQRCode(@RequestHeader("Authorization") String token,

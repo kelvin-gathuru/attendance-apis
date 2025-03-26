@@ -1,12 +1,12 @@
 package com.attendance.attendance.department.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.attendance.attendance.user.model.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +17,12 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long departmentID;
     private String departmentName;
-
+    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "createdBy")
+    private User createdBy;
+    private LocalDateTime updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "updatedBy")
+    private User updatedBy;
 }

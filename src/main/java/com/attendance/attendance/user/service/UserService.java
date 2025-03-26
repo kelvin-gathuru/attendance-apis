@@ -39,14 +39,22 @@ public class UserService {
         user.setPassword(encodedPassword);
         user.setCreatedAt(LocalDateTime.now());
         emailService.sendCredentials(user.getEmail(), generatedPassword);
+        System.out.println(generatedPassword);
         userRepository.save(user);
         return responseService.formulateResponse(null, "User created successfully", HttpStatus.OK, true);
     }
     public ResponseEntity updateUser(User user) {
-        if(userRepository.findByEmail(user.getEmail()) == null) {
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if(existingUser == null) {
             return responseService.formulateResponse(null, "User does not exist", HttpStatus.BAD_REQUEST, false);
         }
-        userRepository.save(user);
+        existingUser.setEmail(user.getEmail());
+        existingUser.setName(user.getName());
+        existingUser.setUpdatedAt(LocalDateTime.now());
+        existingUser.setDepartmentID(user.getDepartmentID());
+        existingUser.setPfNumber(user.getPfNumber());
+        existingUser.setPhoneNumber(user.getPhoneNumber());
+        userRepository.save(existingUser);
         return responseService.formulateResponse(null, "User updated successfully", HttpStatus.OK, true);
     }
     public ResponseEntity authenticateUser(User user) {
@@ -66,5 +74,8 @@ public class UserService {
             return responseService.formulateResponse(response, "User authenticated successfully", HttpStatus.OK, true);
         }
         return responseService.formulateResponse(null, "Invalid credentials", HttpStatus.BAD_REQUEST, false);
+    }
+    public ResponseEntity getUsers(){
+        return responseService.formulateResponse(userRepository.findAll(), "Users found", HttpStatus.OK, true);
     }
 }

@@ -25,4 +25,5 @@ public class User {
     private String departmentID;
     private String password;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

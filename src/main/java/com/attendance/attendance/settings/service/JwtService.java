@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class JwtService {
         claims.put("userID", jwtUser.getUserID());
         claims.put("email", jwtUser.getEmail());
         claims.put("name", jwtUser.getName());
+        LocalDateTime now = LocalDateTime.now();
         return createToken(claims);
     }
 
